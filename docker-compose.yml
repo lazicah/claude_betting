@@ -270,3 +270,20 @@ services:
       - ./match_database/afropari:/app/db
     restart: unless-stopped
 
+  # ───────────────────────────────────────────────────────────────────────
+  # Betting Dashboard  (Dash web UI — read-only access to all CSV data)
+  # Access at http://localhost:8050
+  # ───────────────────────────────────────────────────────────────────────
+  dashboard:
+    build:
+      context: .
+      dockerfile: docker/dashboard/Dockerfile
+    container_name: betting-dashboard
+    ports:
+      - "8050:8050"
+    volumes:
+      # Mount the entire match_database/ read-only so the dashboard
+      # can see all bookmakers without any scraper container restarting.
+      - ./match_database:/app/match_database:ro
+    restart: unless-stopped
+
