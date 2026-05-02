@@ -237,7 +237,7 @@ def _extract_score(live_data: dict) -> tuple[str, str]:
 
 def _extract_line_from_label(label: str) -> str:
     """Extract numeric line from an outcome label like 'Over 2.5'."""
-    m = re.search(r"[\d]+(?:\.[\d]+)?", label)
+    m = re.search(r"\d+(?:\.\d+)?", label)
     return m.group(0) if m else ""
 
 
