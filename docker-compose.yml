@@ -139,3 +139,134 @@ services:
       - ./match_database/sts:/app/db
     restart: unless-stopped
 
+  # ───────────────────────────────────────────────────────────────────────
+  # 1xBet scraper  (LineFeed API)
+  # Note: 1xBet may be geo-restricted in some regions — add VPN if needed.
+  # ───────────────────────────────────────────────────────────────────────
+  1xbet:
+    build:
+      context: .
+      dockerfile: docker/1xbet/Dockerfile
+    container_name: scraper-1xbet
+    volumes:
+      - ./match_database/1xbet:/app/db
+    restart: unless-stopped
+
+  # ───────────────────────────────────────────────────────────────────────
+  # Melbet scraper  (LineFeed API — same platform as 1xBet)
+  # Note: Melbet may be geo-restricted in some regions — add VPN if needed.
+  # ───────────────────────────────────────────────────────────────────────
+  melbet:
+    build:
+      context: .
+      dockerfile: docker/melbet/Dockerfile
+    container_name: scraper-melbet
+    volumes:
+      - ./match_database/melbet:/app/db
+    restart: unless-stopped
+
+  # ───────────────────────────────────────────────────────────────────────
+  # 22Bet scraper  (LineFeed API — same platform as 1xBet)
+  # Note: 22Bet may be geo-restricted in some regions — add VPN if needed.
+  # ───────────────────────────────────────────────────────────────────────
+  22bet:
+    build:
+      context: .
+      dockerfile: docker/22bet/Dockerfile
+    container_name: scraper-22bet
+    volumes:
+      - ./match_database/22bet:/app/db
+    restart: unless-stopped
+
+  # ───────────────────────────────────────────────────────────────────────
+  # Betwinner scraper  (LineFeed API — same platform as 1xBet)
+  # Note: Betwinner may be geo-restricted in some regions — add VPN if needed.
+  # ───────────────────────────────────────────────────────────────────────
+  betwinner:
+    build:
+      context: .
+      dockerfile: docker/betwinner/Dockerfile
+    container_name: scraper-betwinner
+    volumes:
+      - ./match_database/betwinner:/app/db
+    restart: unless-stopped
+
+  # ───────────────────────────────────────────────────────────────────────
+  # 888Starz scraper  (LineFeed API — same platform as 1xBet)
+  # Note: 888Starz may be geo-restricted in some regions — add VPN if needed.
+  # ───────────────────────────────────────────────────────────────────────
+  888starz:
+    build:
+      context: .
+      dockerfile: docker/888starz/Dockerfile
+    container_name: scraper-888starz
+    volumes:
+      - ./match_database/888starz:/app/db
+    restart: unless-stopped
+
+  # ───────────────────────────────────────────────────────────────────────
+  # Bet9ja scraper  (Kambi API — publicly accessible, no VPN needed)
+  # ───────────────────────────────────────────────────────────────────────
+  bet9ja:
+    build:
+      context: .
+      dockerfile: docker/bet9ja/Dockerfile
+    container_name: scraper-bet9ja
+    volumes:
+      - ./match_database/bet9ja:/app/db
+    restart: unless-stopped
+
+  # ───────────────────────────────────────────────────────────────────────
+  # Sportybet scraper  (Betradar API — no VPN needed)
+  # Default market: Nigeria (ng). Override via SPORTYBET_COUNTRY env var.
+  # ───────────────────────────────────────────────────────────────────────
+  sportybet:
+    build:
+      context: .
+      dockerfile: docker/sportybet/Dockerfile
+    container_name: scraper-sportybet
+    environment:
+      - SPORTYBET_COUNTRY=ng
+    volumes:
+      - ./match_database/sportybet:/app/db
+    restart: unless-stopped
+
+  # ───────────────────────────────────────────────────────────────────────
+  # Betano scraper  (Kaizen Gaming — no VPN needed for BR market)
+  # Default domain: www.betano.com.br. Override via BETANO_DOMAIN env var.
+  # ───────────────────────────────────────────────────────────────────────
+  betano:
+    build:
+      context: .
+      dockerfile: docker/betano/Dockerfile
+    container_name: scraper-betano
+    environment:
+      - BETANO_DOMAIN=www.betano.com.br
+    volumes:
+      - ./match_database/betano:/app/db
+    restart: unless-stopped
+
+  # ───────────────────────────────────────────────────────────────────────
+  # Betking scraper  (REST API — no VPN needed)
+  # ───────────────────────────────────────────────────────────────────────
+  betking:
+    build:
+      context: .
+      dockerfile: docker/betking/Dockerfile
+    container_name: scraper-betking
+    volumes:
+      - ./match_database/betking:/app/db
+    restart: unless-stopped
+
+  # ───────────────────────────────────────────────────────────────────────
+  # Afropari scraper  (REST API — no VPN needed)
+  # ───────────────────────────────────────────────────────────────────────
+  afropari:
+    build:
+      context: .
+      dockerfile: docker/afropari/Dockerfile
+    container_name: scraper-afropari
+    volumes:
+      - ./match_database/afropari:/app/db
+    restart: unless-stopped
+
