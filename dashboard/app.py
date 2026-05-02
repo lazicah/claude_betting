@@ -19,8 +19,8 @@ Access:
     http://localhost:8050
 """
 
-import glob as glob_module
 import os
+from glob import glob
 import re
 from typing import Optional
 
@@ -33,7 +33,8 @@ from rapidfuzz import fuzz
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
-MATCH_DB = os.environ.get("MATCH_DB", "match_database")
+# MATCH_DB is read from the environment at call time in load_latest_snapshots()
+# so that the --db CLI flag (which sets os.environ["MATCH_DB"]) takes effect.
 REFRESH_INTERVAL_MS = 5_000  # 5 seconds
 
 # All known bookmaker tags (scraperTag → display name)
@@ -132,8 +133,9 @@ def _canonical(s: str) -> str:
 
 def load_latest_snapshots() -> pd.DataFrame:
     """Read the latest row from every CSV in match_database/ and return a DataFrame."""
-    pattern = os.path.join(MATCH_DB, "*", "*", "*.csv")
-    paths = sorted(glob_module.glob(pattern))
+    db_path = os.environ.get("MATCH_DB", "match_database")
+    pattern = os.path.join(db_path, "*", "*", "*.csv")
+    paths = sorted(glob(pattern))
 
     records = []
     for path in paths:
@@ -770,6 +772,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.db:
-        MATCH_DB = args.db
+        os.environ["MATCH_DB"] = args.db
 
     app.run(host=args.host, port=args.port, debug=args.debug)
